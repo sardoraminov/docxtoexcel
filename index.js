@@ -104,6 +104,9 @@ bot.command("tozalash", async (ctx) => {
   ctx.reply("Baza tozalanmoqda...");
   try {
     await User.deleteMany();
+    fs.unlink("./outputs/users.xlsx", (err) => {
+      if (err) console.log(err);
+    });
     ctx.reply("Baza tozalandi!");
   } catch (error) {
     console.log(error);
