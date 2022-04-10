@@ -33,6 +33,19 @@ bot.command("send_document", async (ctx) => {
 let users = [];
 let count = 0;
 
+bot.command("tozalash", async (ctx) => {
+  ctx.reply("Baza tozalanmoqda...");
+  try {
+    await User.deleteMany();
+    fs.unlink("./outputs/users.xlsx", (err) => {
+      if (err) console.log(err);
+    });
+    ctx.reply("Baza tozalandi!");
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 bot.on("message", async (ctx) => {
   if (ctx.message.document) {
     users.push(ctx.message.document);
@@ -94,24 +107,13 @@ bot.on("message", async (ctx) => {
   } else if (
     !ctx.message.text ||
     ctx.message.text !== "ok" ||
-    ctx.message.text !== "ha"
+    ctx.message.text !== "ha" ||
+    ctx.message.text !== "/tozalash"
   ) {
     ctx.reply("Faqatgina .doc, .docx kengaytmaga ega file lar qabul qilinadi!");
   }
 });
 
-bot.command("tozalash", async (ctx) => {
-  ctx.reply("Baza tozalanmoqda...");
-  try {
-    await User.deleteMany();
-    fs.unlink("./outputs/users.xlsx", (err) => {
-      if (err) console.log(err);
-    });
-    ctx.reply("Baza tozalandi!");
-  } catch (error) {
-    console.log(error);
-  }
-});
 bot.launch();
 
 process.once("SIGINT", () => bot.stop("SIGINT"));
