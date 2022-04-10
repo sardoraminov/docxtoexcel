@@ -99,6 +99,16 @@ bot.on("message", async (ctx) => {
     ctx.reply("Faqatgina .doc, .docx kengaytmaga ega file lar qabul qilinadi!");
   }
 });
+
+bot.command("tozalash", async (ctx) => {
+  ctx.reply("Baza tozalanmoqda...");
+  try {
+    await User.deleteMany();
+    ctx.reply("Baza tozalandi!");
+  } catch (error) {
+    console.log(error);
+  }
+});
 bot.launch();
 
 process.once("SIGINT", () => bot.stop("SIGINT"));
