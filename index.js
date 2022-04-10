@@ -4,10 +4,9 @@ const User = require("./models/User");
 const { default: axios } = require("axios");
 const exportUsersToExcel = require("./excelService");
 const fs = require("fs");
-const path = require("path");
 
 connect(
-  "mongodb+srv://sardor:1234asdf@cluster0.exmab.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+  "mongodb+srv://dasturchioka:1234asdf@cluster0.7m8uk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 )
   .then(() => {
     console.log("Connected to database");
@@ -18,22 +17,26 @@ connect(
 
 const bot = new Telegraf("5269373277:AAHFFNdi-vKTG7ICqkyUavWVSEBixxe-dyQ");
 
-bot.start((ctx) => ctx.reply("Welcome"));
+bot.start((ctx) =>
+  ctx.replyWithHTML(`
+<b>Assalomu alaykum, ${ctx.from.first_name}</b>
+
+/send_document - Hujjatlarni yuborish
+/clear - Bazani tozalash
+`)
+);
 bot.command("send_document", async (ctx) => {
   ctx.replyWithHTML(`
   Hujjatlarni yuboring.
   
   Yuborib bo'lganingizdan keyin <b>"ok"</b> deb yozing! 
   `);
-  // let specificWord = ctx.message.document.file_name.match(
-  //   /([A-Z]+[a-z]*(?=\s[A-Z])(?:\s[A-Z]+[a-z]*){1,2})/
-  // );
 });
 
 let users = [];
 let count = 0;
 
-bot.command("tozalash", async (ctx) => {
+bot.command("clear", async (ctx) => {
   ctx.reply("Baza tozalanmoqda...");
   try {
     await User.deleteMany();
@@ -108,7 +111,7 @@ bot.on("message", async (ctx) => {
     !ctx.message.text ||
     ctx.message.text !== "ok" ||
     ctx.message.text !== "ha" ||
-    ctx.message.text !== "/tozalash"
+    ctx.message.text !== "/clear"
   ) {
     ctx.reply("Faqatgina .doc, .docx kengaytmaga ega file lar qabul qilinadi!");
   }
